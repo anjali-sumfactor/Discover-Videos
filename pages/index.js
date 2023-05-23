@@ -1,8 +1,11 @@
 import Head from 'next/head';
 
-import styles from '@/styles/Home.module.css';
 import { Banner } from '@/components/banner/banner';
 import { Navbar } from '@/components/nav/navbar';
+import { Card } from '@/components/card/card';
+import { SectionCards } from '@/components/card/section-cards';
+
+import styles from '@/styles/Home.module.css';
 
 export default function Home() {
   return (
@@ -13,12 +16,16 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <main className={`${styles.main}`}>
-        <h1>Netflix</h1>
 
         <Navbar username="anjali@anj.com" />
-
         <Banner title="Clifford the red dog" subTitle="a very cute dog" imgUrl="/static/clifford.webp" />
+        <SectionCards title="Disney" />
+        <Card imgUrl="/static/clifford.webp" size="large" />
+        <Card size="medium" />
+        <Card imgUrl="/static/clifford.webp" size="small" />
+
       </main>
     </>
   )
