@@ -56,6 +56,17 @@ h3 {
   font-weight: 600;
 }
 
+button {
+  background-image: none;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: transparent;
+  text-transform: none;
+  margin: 0;
+  border: 0px;
+  outline: 0px;
+}
+
 :root {
   --black: rgb(0, 0, 0);
   --black10: #181818;
