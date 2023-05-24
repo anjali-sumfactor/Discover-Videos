@@ -7,8 +7,21 @@ import { SectionCards } from '@/components/card/section-cards';
 import styles from '@/styles/Home.module.css';
 import { getVideos } from '@/lib/videos';
 
-export default function Home() {
-  const disneyVideos = getVideos();
+export async function getServerSideProps() {
+  const disneyVideos = await getVideos("disney trailer");
+
+  const productivityVideos = await getVideos("productivity trailer");
+
+  const travelVideos = await getVideos("travel trailer");
+
+  // const popularVideos = await getVideos();
+
+  return { props: { disneyVideos, travelVideos, productivityVideos } };
+}
+
+export default function Home({ disneyVideos, travelVideos, productivityVideos }) {
+
+  // console.log({ disneyVideos });
 
   return (
     <>
@@ -22,10 +35,14 @@ export default function Home() {
       <main className={`${styles.main}`}>
 
         <Navbar username="anjali@anj.com" />
+
         <Banner title="Clifford the red dog" subTitle="a very cute dog" imgUrl="/static/clifford.webp" />
+
         <div className={styles.sectionWrapper}>
           <SectionCards title="Disney" videos={disneyVideos} size="large" />
-          <SectionCards title="Disney" videos={disneyVideos} size="medium" />
+          <SectionCards title="Travel" videos={travelVideos} size="small" />
+          <SectionCards title="Productivity" videos={productivityVideos} size="medium" />
+          <SectionCards title="Popular" videos={disneyVideos} size="small" />
         </div>
 
       </main>

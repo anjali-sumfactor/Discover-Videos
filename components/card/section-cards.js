@@ -3,7 +3,7 @@ import { Card } from "./card";
 import styles from "./section-cards.module.css";
 
 export function SectionCards(props) {
-    const { title, videos, size } = props;
+    const { title, videos=[], size } = props;
 
     console.log({ videos });
 
@@ -13,7 +13,7 @@ export function SectionCards(props) {
             <div className={styles.cardWrapper}>
                 {videos.map((video, idx) => {
                     return <Card id={idx} imgUrl={video.imgUrl} size={size} />
-                })};
+                })}
             </div>
         </section>
     )
