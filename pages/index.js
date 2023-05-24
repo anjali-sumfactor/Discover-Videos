@@ -2,12 +2,14 @@ import Head from 'next/head';
 
 import { Banner } from '@/components/banner/banner';
 import { Navbar } from '@/components/nav/navbar';
-import { Card } from '@/components/card/card';
 import { SectionCards } from '@/components/card/section-cards';
 
 import styles from '@/styles/Home.module.css';
+import { getVideos } from '@/lib/videos';
 
 export default function Home() {
+  const disneyVideos = getVideos();
+
   return (
     <>
       <Head>
@@ -21,10 +23,10 @@ export default function Home() {
 
         <Navbar username="anjali@anj.com" />
         <Banner title="Clifford the red dog" subTitle="a very cute dog" imgUrl="/static/clifford.webp" />
-        <SectionCards title="Disney" />
-        <Card imgUrl="/static/clifford.webp" size="large" />
-        <Card size="medium" />
-        <Card imgUrl="/static/clifford.webp" size="small" />
+        <div className={styles.sectionWrapper}>
+          <SectionCards title="Disney" videos={disneyVideos} size="large" />
+          <SectionCards title="Disney" videos={disneyVideos} size="medium" />
+        </div>
 
       </main>
     </>
