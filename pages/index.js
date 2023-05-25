@@ -31,6 +31,7 @@ export default function Home({ disneyVideos, travelVideos, productivityVideos, p
       </Head>
 
       <main>
+
         <div className={styles.main}>
           <Navbar username="anjali@anj.com" />
 
@@ -43,6 +44,7 @@ export default function Home({ disneyVideos, travelVideos, productivityVideos, p
             <SectionCards title="Popular" videos={popularVideos} size="small" />
           </div>
         </div>
+        
       </main>
     </>
   )
