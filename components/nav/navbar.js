@@ -84,9 +84,9 @@ export function Navbar() {
                         {showDropdown && (
                             <div className={styles.navDropdown}>
                                 <div>
-                                    <Link href='/login' onClick={handleSignOut} className={styles.linkName}>
+                                    <a className={styles.linkName} onClick={handleSignOut}>
                                         Sign out
-                                    </Link>
+                                    </a>
                                     <div className={styles.lineWrapper}></div>
                                 </div>
                             </div>

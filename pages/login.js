@@ -20,7 +20,6 @@ export default function Login() {
         }
 
         router.events.on('routerChangeComplelte', handleComplete);
-
         router.events.on('routerChangeError', handleComplete);
 
         return () => {
