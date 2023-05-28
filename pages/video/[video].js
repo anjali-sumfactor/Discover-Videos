@@ -5,11 +5,10 @@ import styles from '../../styles/Video.module.css';
 
 export default function Video() {
     const router = useRouter();
-    console.log(router);
 
-    return <div>video page {router.query.video
+    return <div className={styles.container}>video page {router.query.video
     }
-        <Modal isOpen={true} contentLabel="Watch the video" onRequestClose={() => { router.back() }}
+        <Modal isOpen={true} contentLabel="Watch the video" className={styles.modal} onRequestClose={() => { router.back() }}
             overlayClassName={styles.overlay}>
             <div>Modal body</div>
         </Modal>
