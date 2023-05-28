@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 import Image from 'next/image';
+
 import { magic } from '../../lib/magic-client';
 
 import styles from './navbar.module.css';
@@ -10,15 +10,18 @@ export function Navbar() {
     const [showDropdown, setShowDropdown] = useState(false);
     const [username, setUsername] = useState("");
 
-    useEffect(async () => {
-        try {
-            const { email } = await magic.user.getMetadata();
-            if (email) {
-                setUsername(email);
+    useEffect(() => {
+        async function logout() {
+            try {
+                const { email } = await magic.user.getMetadata();
+                if (email) {
+                    setUsername(email);
+                }
+            } catch (error) {
+                console.log("Error retrieving email", error);
             }
-        } catch (error) {
-            console.log("Error retrieving email", error);
         }
+        logout();
     }, []);
 
     const router = useRouter();

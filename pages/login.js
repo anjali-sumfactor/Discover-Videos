@@ -89,7 +89,7 @@ export default function Login() {
 
             <main className={styles.main}>
                 <div className={styles.mainWrapper}>
-                    <h1 className={styles.signinHaeder}>Sign In</h1>
+                    <h1 className={styles.signinHeader}>Sign In</h1>
 
                     <input type='text' placeholder='Email address' onChange={handleOnChangeEmail} className={styles.emailInput}></input>
 
