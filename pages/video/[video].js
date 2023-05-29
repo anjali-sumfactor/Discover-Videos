@@ -5,16 +5,41 @@ import clsx from 'classnames';
 
 import styles from '../../styles/Video.module.css';
 
-export default function Video() {
-    const router = useRouter();
-
+export async function getStaticProps() {
+    //data to fetch from API
     const video = {
         title: 'Hi cute dog',
         publishTime: "1990-01-01",
-        description: 'A big red dog that is super cute, can he get any biggerA big red dog that is super cute, can he get any bigger?A big red dog that is super cute, can he get any bigger? A big red dog that is super cute, can he get any bigger Paramount Picture? A big red dog that is super cute, can he get any bigger A big red dog that is super cute, can he get any bigger?A big red dog that is super cute, can he get any bigger? A big red dog that is super cute, can he get any bigger? A big red dog that is super cute, can he get any biggerA big red dog that is super cute, can he get any bigger?A big red dog that is super cute, can he get any bigger? A big red dog that is super cute, can he get any bigger?that is super cute, can he get any bigger?A big red dog that is super cute, can he get any bigger? A big red dog that is super cute, can he get any bigger? A big red dog that is super cute, can he get any biggerA big red dog that is super cute, can ',
+        description: 'A big red dog that is super cute, can he get any biggerA big red dog that is super cute, can he get any bigger?',
         channelTitle: 'Paramount Picture',
         viewCount: 10000,
     }
+
+    return {
+        props: {
+            video,
+        },
+        revalidate: 10, // In seconds
+    };
+}
+
+export async function getStaticPaths() {
+    const listOfVideos = ['mYfJxlgR2jw', '4zH5iYM4wJo', 'KCPEHsAViiQ'];
+
+    // Get the paths we want to pre-render based on posts
+    const paths = listOfVideos.map((video) => ({
+        params: { video},
+    }));
+
+    // We'll pre-render only these paths at build time.
+    // { fallback: 'blocking' } will server-render pages
+    // on-demand if the path doesn't exist.
+    return { paths, fallback: 'blocking' };
+}
+
+
+export default function Video({ video }) {
+    const router = useRouter();
 
     const { title, publishTime, description, channelTitle, viewCount } = video;
 
