@@ -14,7 +14,7 @@ export function SectionCards(props) {
                 {videos.map((video, idx) => {
                     console.log(video);
                     return (
-                        <Link href={`/video/${video}`}>
+                        <Link href={`/video/${video.id}`}>
                             <Card id={idx} imgUrl={video.imgUrl} size={size} />
                         </Link>
                     )

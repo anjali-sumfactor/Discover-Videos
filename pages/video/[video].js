@@ -7,10 +7,11 @@ import { getYoutubeVideoById } from '@/lib/videos';
 
 import styles from '../../styles/Video.module.css';
 
-export async function getStaticProps() {
-    const videoId = '4zH5iYM4wJo'
+export async function getStaticProps(context) {
+    console.log({ context });
+
+    const videoId = context.params.video;
     const videoArray = await getYoutubeVideoById(videoId);
-    console.log({ videoArray });
 
     return {
         props: {
@@ -37,10 +38,9 @@ export async function getStaticPaths() {
 export default function Video({ video }) {
     const router = useRouter();
 
-    const { title, publishTime, description, channelTitle, statistics: { viewCount } } = video;
+    const { title, publishTime, description, channelTitle, statistics: { viewCount } = { viewCount: 0 } } = video;
 
-    return <div className={styles.container}>video page {router.query.video
-    }
+    return <div className={styles.container}>
         <Modal isOpen={true} contentLabel="Watch the video" className={styles.modal} onRequestClose={() => { router.back() }}
             overlayClassName={styles.overlay}>
 
