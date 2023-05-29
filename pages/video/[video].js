@@ -3,21 +3,18 @@ import Modal from 'react-modal';
 Modal.setAppElement('#__next');
 import clsx from 'classnames';
 
+import { getYoutubeVideoById } from '@/lib/videos';
+
 import styles from '../../styles/Video.module.css';
 
 export async function getStaticProps() {
-    //data to fetch from API
-    const video = {
-        title: 'Hi cute dog',
-        publishTime: "1990-01-01",
-        description: 'A big red dog that is super cute, can he get any biggerA big red dog that is super cute, can he get any bigger?',
-        channelTitle: 'Paramount Picture',
-        viewCount: 10000,
-    }
+    const videoId = '4zH5iYM4wJo'
+    const videoArray = await getYoutubeVideoById(videoId);
+    console.log({ videoArray });
 
     return {
         props: {
-            video,
+            video: videoArray.length > 0 ? videoArray[0] : {},
         },
         revalidate: 10, // In seconds
     };
@@ -28,7 +25,7 @@ export async function getStaticPaths() {
 
     // Get the paths we want to pre-render based on posts
     const paths = listOfVideos.map((video) => ({
-        params: { video},
+        params: { video },
     }));
 
     // We'll pre-render only these paths at build time.
@@ -37,11 +34,10 @@ export async function getStaticPaths() {
     return { paths, fallback: 'blocking' };
 }
 
-
 export default function Video({ video }) {
     const router = useRouter();
 
-    const { title, publishTime, description, channelTitle, viewCount } = video;
+    const { title, publishTime, description, channelTitle, statistics: { viewCount } } = video;
 
     return <div className={styles.container}>video page {router.query.video
     }

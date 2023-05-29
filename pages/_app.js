@@ -7,20 +7,20 @@ import '@/styles/globals.css';
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    async function login() {
-      const isLoggedIn = await magic.user.isLoggedIn();
-      if (isLoggedIn) {
-        setIsLoading(false);
-        router.push('/');
-      } else {
-        setIsLoading(false);
-        router.push('/login');
-      }
-    }
-    login();
+    // async function login() {
+    //   const isLoggedIn = await magic.user.isLoggedIn();
+    //   if (isLoggedIn) {
+    //     setIsLoading(false);
+    //     router.push('/');
+    //   } else {
+    //     setIsLoading(false);
+    //     router.push('/login');
+    //   }
+    // }
+    // login();
   }, []);
 
   useEffect(() => {
