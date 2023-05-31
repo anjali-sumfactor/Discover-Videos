@@ -9,7 +9,7 @@ import styles from '../../styles/Video.module.css';
 import { Navbar } from '@/components/nav/navbar';
 
 export async function getStaticProps(context) {
-    console.log({ context });
+    // console.log({ context });
 
     const videoId = context.params.video;
     const videoArray = await getYoutubeVideoById(videoId);
