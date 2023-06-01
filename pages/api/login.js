@@ -1,3 +1,4 @@
+import { setTokenCookie } from "@/lib/cookies";
 import { isNewUser, createNewUser } from "@/lib/db/hasura";
 import { magicAdmin } from "@/lib/magic";
 import jwt from 'jsonwebtoken';
@@ -32,8 +33,13 @@ export default async function login(req, res) {
                 //create a new user
                 const createNewUserMutation = await createNewUser(token, metadata);
                 console.log({ createNewUserMutation })
+                //set the cookie
+                const cookie = setTokenCookie(token)
+                console.log({ cookie })
                 res.send({ done: true, msg: "is a new user" });
             } else {
+                //set the cookie
+
                 res.send({ done: true, msg: "not a new user" })
             }
 
