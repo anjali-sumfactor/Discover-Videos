@@ -1,3 +1,4 @@
+import { isNewUser, createNewUser } from "@/lib/db/hasura";
 import { magicAdmin } from "@/lib/magic";
 import jwt from 'jsonwebtoken';
 
@@ -6,26 +7,37 @@ export default async function login(req, res) {
         try {
             const auth = req.headers.authorization;
             const didToken = auth ? auth.substr(7) : '';
-            // console.log({ token });
 
             const metadata = await magicAdmin.users.getMetadataByToken(didToken);
 
-            console.log({ metadata });
 
             //create jwt
             const token = jwt.sign({
                 ...metadata,
-                "iat": Math.floor(Date.now() / 1000),
-                "exp": Math.floor(Date.now() / 1000 + 7 * 24 * 60 * 60),
+                iat: Math.floor(Date.now() / 1000),
+                exp: Math.floor(Date.now() / 1000 + 7 * 24 * 60 * 60),
                 "https://hasura.io/jwt/claims": {
                     "x-hasura-default-role": "user",
                     "x-hasura-allowed-roles": ["user", "admin"],
                     "x-hasura-user-id": `${metadata.issuer}`,
                 },
-            }, "hasuratokenkeyhasuratokenkey1234");
+            },
+                process.env.JWT_SECRET
+            );
             console.log({ token });
 
-            res.send({ done: true });
+            //CHECK IF USER EXIST
+            const isNewUserQuery = await isNewUser(token, metadata.issuer);
+            if (isNewUserQuery) {
+                //create a new user
+                const createNewUserMutation = await createNewUser(token, metadata);
+                console.log({ createNewUserMutation })
+                res.send({ done: true, msg: "is a new user" });
+            } else {
+                res.send({ done: true, msg: "not a new user" })
+            }
+
+
         } catch (error) {
             console.error("Something went wrong logging in", error);
             res.status(500).send({ done: false });

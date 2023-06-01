@@ -44,7 +44,8 @@ export default function Login() {
                 try {
                     setIsLoading(true);
 
-                    const didToken = await magic.auth.loginWithMagicLink({ email });
+                    const didToken = await magic.auth.loginWithMagicLink({ email, 
+                    });
                     console.log({ didToken });
                     if (didToken) {
                         // setIsLoading(false);
