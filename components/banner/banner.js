@@ -9,7 +9,7 @@ export function Banner(props) {
     const router = useRouter();
 
     const handleOnPlay = () => {
-        console.log("handleOnPlay");
+        // console.log("handleOnPlay");
         router.push(`video/${videoId}`);
     }
 

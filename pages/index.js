@@ -4,7 +4,6 @@ import { Banner } from '@/components/banner/banner';
 import { Navbar } from '@/components/nav/navbar';
 import { SectionCards } from '@/components/card/section-cards';
 import { getPopularVideos, getVideos } from '@/lib/videos';
-import { startFetchMyQuery } from '@/lib/db/hasura';
 
 import styles from '@/styles/Home.module.css';
 
@@ -21,8 +20,6 @@ export async function getServerSideProps() {
 }
 
 export default function Home({ disneyVideos, travelVideos, productivityVideos, popularVideos }) {
-
-  startFetchMyQuery();
 
   return (
     <>

@@ -39,24 +39,38 @@ export default function Login() {
         e.preventDefault();
 
         if (email) {
-            if (email === "anjaliruby790@gmail.com") {
-                // router.push('/');
-                try {
-                    setIsLoading(true);
+            // router.push('/');
+            try {
+                setIsLoading(true);
 
-                    const didToken = await magic.auth.loginWithMagicLink({ email });
-                    console.log({ didToken });
-                    if (didToken) {
-                        // setIsLoading(false);
+                const didToken = await magic.auth.loginWithMagicLink({
+                    email,
+                });
+                console.log({ didToken });
+                if (didToken) {
+                    // setIsLoading(false);
+
+                    const response = await fetch('./api/login', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${didToken}`,
+                            'Content-Type': "application/json",
+                        },
+                    });
+
+                    const loggedInResponse = await response.json();
+                    if (loggedInResponse.done) {
+                        console.log({ loggedInResponse });
                         router.push('/');
+                    } else {
+                        setIsLoading(false);
+                        setUserMsg("Enter a valid email address");
                     }
-                } catch (error) {
-                    console.error('Something went wrong logging in', error);
-                    setIsLoading(false);
+
                 }
-            } else {
+            } catch (error) {
+                console.error('Something went wrong logging in', error);
                 setIsLoading(false);
-                console.log("Something went wrong logging in");
             }
         } else {
             //show user msg
