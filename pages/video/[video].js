@@ -7,6 +7,8 @@ import { getYoutubeVideoById } from '@/lib/videos';
 
 import styles from '../../styles/Video.module.css';
 import { Navbar } from '@/components/nav/navbar';
+import Like from '@/components/icons/like-icon';
+import DisLike from '@/components/icons/dislike-icon';
 
 export async function getStaticProps(context) {
     // console.log({ context });
@@ -42,7 +44,7 @@ export default function Video({ video }) {
     const { title, publishTime, description, channelTitle, statistics: { viewCount } = { viewCount: 0 } } = video;
 
     return <div className={styles.container}>
-        <Navbar/>
+        <Navbar />
         <Modal isOpen={true} contentLabel="Watch the video" className={styles.modal} onRequestClose={() => { router.back() }}
             overlayClassName={styles.overlay}>
 
@@ -53,7 +55,23 @@ export default function Video({ video }) {
                 width="100%"
                 height="360"
                 src={`https://www.youtube.com/embed/${router.query.video}?autoplay=1&origin=http://example.com&controls=0&rel=1`}
-                frameborder="0"></iframe>
+                frameborder="0">
+            </iframe>
+
+            <div className={styles.likeDislikeBtnWrapper}>
+                <div className={styles.likeBtnWrapper}>
+                    <button>
+                        <div className={styles.btnWrapper}>
+                            <Like />
+                        </div>
+                    </button>
+                </div>
+                <button>
+                    <div className={styles.btnWrapper}>
+                        <DisLike />
+                    </div>
+                </button>
+            </div>
 
             <div className={styles.modalBody}>
                 <div className={styles.modalBodyContent}>
