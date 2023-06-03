@@ -11,6 +11,8 @@ export default async function stats(req, resp) {
             } else {
                 const decoded = jwt.verify(token, process.env.JWT_SECRET);
                 console.log({ decoded });
+
+                const findVideoId = await findVideoIdByUser();
                 resp.send({ msg: " it works", decoded });
             }
         } catch (error) {
