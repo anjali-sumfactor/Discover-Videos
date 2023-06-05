@@ -43,22 +43,27 @@ export default function Video({ video }) {
 
     const { title, publishTime, description, channelTitle, statistics: { viewCount } = { viewCount: 0 } } = video;
 
+    const runRatingService = async (favourited) => {
+        return await fetch('/api/stats', {
+            method: 'POST',
+            body: JSON.stringify({
+                videoId,
+                favourited,
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+    }
+
     const handleToggleDislike = async () => {
         console.log("handleToggleDislike");
         const val = !toggleDislike
         setToggleDisLike(val);
         setToggleLike(toggleDislike);
 
-        const response = await fetch('/api/stats', {
-            method: 'POST',
-            body: JSON.stringify({
-                videoId,
-                favourited: val ? 0 : 1,
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
+        const favourited = val ? 0 : 1;
+        const response = await runRatingService(favourited)
         console.log('data', await response.json());
     }
 
@@ -68,16 +73,8 @@ export default function Video({ video }) {
         setToggleLike(val);
         setToggleDisLike(toggleLike);
 
-        const response = await fetch('/api/stats', {
-            method: 'POST',
-            body: JSON.stringify({
-                videoId,
-                favourited: val ? 1 : 0,
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
+        const favourited = val ? 1 : 0;
+        const response = await runRatingService(favourited)
         console.log('data', await response.json());
     }
 
