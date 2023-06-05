@@ -9,32 +9,34 @@ export default async function stats(req, resp) {
             if (!token) {
                 resp.status(403).send({});
             } else {
-                const videoId = req.query.videoId;
-                const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+                const { videoId, favourited, watched = true } = req.body;
 
-                const userId = decodedToken.issuer;
-                const doesStatsExits = await findVideoIdByUserId(token, userId, videoId);
+                if (videoId) {
+                    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
 
-                if (doesStatsExits) {
-                    //update it
-                    const response = await updateStats(token, {
-                        favourited: 0,
-                        watched: true,
-                        videoId,
-                        userId,
-                    });
-                    resp.send({ msg: " it works", response });
-                } else {
-                    //add it
-                    const response = await insertStats(token, {
-                        favourited: 0,
-                        watched: false,
-                        videoId,
-                        userId,
-                    });
-                    resp.send({ msg: "it works", response });
+                    const userId = decodedToken.issuer;
+                    const doesStatsExits = await findVideoIdByUserId(token, userId, videoId);
+
+                    if (doesStatsExits) {
+                        //update it
+                        const response = await updateStats(token, {
+                            favourited,
+                            watched,
+                            videoId,
+                            userId,
+                        });
+                        resp.send({ data: response });
+                    } else {
+                        //add it
+                        const response = await insertStats(token, {
+                            favourited,
+                            watched,
+                            videoId,
+                            userId,
+                        });
+                        resp.send({ data: response });
+                    }
                 }
-
             }
         } catch (error) {
             console.error("Error occured /stats", error);

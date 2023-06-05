@@ -28,35 +28,57 @@ export async function getStaticProps(context) {
 export async function getStaticPaths() {
     const listOfVideos = ['mYfJxlgR2jw', '4zH5iYM4wJo', 'KCPEHsAViiQ'];
 
-    // Get the paths we want to pre-render based on posts
     const paths = listOfVideos.map((video) => ({
         params: { video },
     }));
-
-    // We'll pre-render only these paths at build time.
-    // { fallback: 'blocking' } will server-render pages
-    // on-demand if the path doesn't exist.
     return { paths, fallback: 'blocking' };
 }
 
 export default function Video({ video }) {
     const router = useRouter();
+    const videoId = router.query.video;
 
     const [toggleLike, setToggleLike] = useState();
     const [toggleDislike, setToggleDisLike] = useState();
 
     const { title, publishTime, description, channelTitle, statistics: { viewCount } = { viewCount: 0 } } = video;
 
-    const handleToggleDislike = () => {
+    const handleToggleDislike = async () => {
         console.log("handleToggleDislike");
-        setToggleDisLike(!toggleDislike)
+        const val = !toggleDislike
+        setToggleDisLike(val);
         setToggleLike(toggleDislike);
+
+        const response = await fetch('/api/stats', {
+            method: 'POST',
+            body: JSON.stringify({
+                videoId,
+                favourited: val ? 0 : 1,
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        console.log('data', await response.json());
     }
 
-    const handleToggleLike = () => {
+    const handleToggleLike = async () => {
         console.log("handleToggleLike");
-        setToggleLike(!toggleLike);
-        setToggleDisLike(toggleLike)
+        const val = !toggleLike;
+        setToggleLike(val);
+        setToggleDisLike(toggleLike);
+
+        const response = await fetch('/api/stats', {
+            method: 'POST',
+            body: JSON.stringify({
+                videoId,
+                favourited: val ? 1 : 0,
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        console.log('data', await response.json());
     }
 
     return <div className={styles.container}>
@@ -70,7 +92,7 @@ export default function Video({ video }) {
                 type="text/html"
                 width="100%"
                 height="360"
-                src={`https://www.youtube.com/embed/${router.query.video}?autoplay=1&origin=http://example.com&controls=0&rel=1`}
+                src={`https://www.youtube.com/embed/${videoId}?autoplay=1&origin=http://example.com&controls=0&rel=1`}
                 frameborder="0">
             </iframe>
 
