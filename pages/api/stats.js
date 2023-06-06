@@ -8,8 +8,8 @@ export default async function stats(req, resp) {
         if (!token) {
             resp.status(403).send({});
         } else {
-            const videoIdByMethod = req.method === 'POST' ? req.body : req.query;
-            const { videoId } = videoIdByMethod;
+            const inputParams = req.method === 'POST' ? req.body : req.query;
+            const { videoId } = inputParams;
 
             if (videoId) {
                 const decodedToken = jwt.verify(token, process.env.JWT_SECRET);

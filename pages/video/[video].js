@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import Modal from 'react-modal';
 Modal.setAppElement('#__next');
 import clsx from 'classnames';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { getYoutubeVideoById } from '@/lib/videos';
 import { Navbar } from '@/components/nav/navbar';
@@ -42,6 +42,27 @@ export default function Video({ video }) {
     const [toggleDislike, setToggleDisLike] = useState();
 
     const { title, publishTime, description, channelTitle, statistics: { viewCount } = { viewCount: 0 } } = video;
+
+    //likeDiskeUpdate:-
+    useEffect(() => {
+        const statsLikeDislikeUpdate = async () => {
+            const response = await fetch(`/api/stats?videoId=${videoId}`, {
+                method: 'GET',
+            });
+            const data = await response.json();
+            console.log({ data });
+            if (data.length > 0) {
+                const favourited = data[0].favourited;
+                if (favourited === 1) {
+                    setToggleLike(true);
+                } else if (favourited === 0) {
+                    setToggleDisLike(true);
+                }
+            }
+        }
+        statsLikeDislikeUpdate();
+    }, []);
+
 
     const runRatingService = async (favourited) => {
         return await fetch('/api/stats', {
