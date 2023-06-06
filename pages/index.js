@@ -3,11 +3,17 @@ import Head from 'next/head';
 import { Banner } from '@/components/banner/banner';
 import { Navbar } from '@/components/nav/navbar';
 import { SectionCards } from '@/components/card/section-cards';
-import { getPopularVideos, getVideos } from '@/lib/videos';
+import { getPopularVideos, getVideos, getWatchItAgainVideos } from '@/lib/videos';
 
 import styles from '@/styles/Home.module.css';
 
 export async function getServerSideProps() {
+  const userId = 'did:ethr:0xdc93cD884F30B67423e1cDBfE0ef9E29211db0c1';
+  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3N1ZXIiOiJkaWQ6ZXRocjoweGRjOTNjRDg4NEYzMEI2NzQyM2UxY0RCZkUwZWY5RTI5MjExZGIwYzEiLCJwdWJsaWNBZGRyZXNzIjoiMHhkYzkzY0Q4ODRGMzBCNjc0MjNlMWNEQmZFMGVmOUUyOTIxMWRiMGMxIiwiZW1haWwiOiJhbmphbGlydWJ5NzkwQGdtYWlsLmNvbSIsIm9hdXRoUHJvdmlkZXIiOm51bGwsInBob25lTnVtYmVyIjpudWxsLCJ3YWxsZXRzIjpbXSwiaWF0IjoxNjg1Njg1Nzg2LCJleHAiOjE2ODYyOTA1ODYsImh0dHBzOi8vaGFzdXJhLmlvL2p3dC9jbGFpbXMiOnsieC1oYXN1cmEtZGVmYXVsdC1yb2xlIjoidXNlciIsIngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsidXNlciIsImFkbWluIl0sIngtaGFzdXJhLXVzZXItaWQiOiJkaWQ6ZXRocjoweGRjOTNjRDg4NEYzMEI2NzQyM2UxY0RCZkUwZWY5RTI5MjExZGIwYzEifX0.W9zRCApNT4DAbqPZSwJNvE5HJ7Z0XtIfb57UQGo6YpQ';
+
+  const watchItAgainVideos = await getWatchItAgainVideos(userId, token);
+  console.log({ watchItAgainVideos });
+
   const disneyVideos = await getVideos("disney trailer");
 
   const productivityVideos = await getVideos("productivity trailer");
