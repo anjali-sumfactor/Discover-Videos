@@ -7,9 +7,10 @@ import { getPopularVideos, getVideos, getWatchItAgainVideos } from '@/lib/videos
 
 import styles from '@/styles/Home.module.css';
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+  const token = context.req ? context.req.cookies.token : null;
+  console.log({ token })
   const userId = 'did:ethr:0xdc93cD884F30B67423e1cDBfE0ef9E29211db0c1';
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3N1ZXIiOiJkaWQ6ZXRocjoweGRjOTNjRDg4NEYzMEI2NzQyM2UxY0RCZkUwZWY5RTI5MjExZGIwYzEiLCJwdWJsaWNBZGRyZXNzIjoiMHhkYzkzY0Q4ODRGMzBCNjc0MjNlMWNEQmZFMGVmOUUyOTIxMWRiMGMxIiwiZW1haWwiOiJhbmphbGlydWJ5NzkwQGdtYWlsLmNvbSIsIm9hdXRoUHJvdmlkZXIiOm51bGwsInBob25lTnVtYmVyIjpudWxsLCJ3YWxsZXRzIjpbXSwiaWF0IjoxNjg1Njg1Nzg2LCJleHAiOjE2ODYyOTA1ODYsImh0dHBzOi8vaGFzdXJhLmlvL2p3dC9jbGFpbXMiOnsieC1oYXN1cmEtZGVmYXVsdC1yb2xlIjoidXNlciIsIngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsidXNlciIsImFkbWluIl0sIngtaGFzdXJhLXVzZXItaWQiOiJkaWQ6ZXRocjoweGRjOTNjRDg4NEYzMEI2NzQyM2UxY0RCZkUwZWY5RTI5MjExZGIwYzEifX0.W9zRCApNT4DAbqPZSwJNvE5HJ7Z0XtIfb57UQGo6YpQ';
 
   const watchItAgainVideos = await getWatchItAgainVideos(userId, token);
   console.log({ watchItAgainVideos });
@@ -22,10 +23,10 @@ export async function getServerSideProps() {
 
   const popularVideos = await getPopularVideos();
 
-  return { props: { disneyVideos, travelVideos, productivityVideos, popularVideos } };
+  return { props: { disneyVideos, travelVideos, productivityVideos, popularVideos, watchItAgainVideos } };
 }
 
-export default function Home({ disneyVideos, travelVideos, productivityVideos, popularVideos }) {
+export default function Home({ disneyVideos, travelVideos, productivityVideos, popularVideos, watchItAgainVideos }) {
 
   return (
     <>
@@ -45,6 +46,7 @@ export default function Home({ disneyVideos, travelVideos, productivityVideos, p
 
           <div className={styles.sectionWrapper}>
             <SectionCards title="Disney" videos={disneyVideos} size="large" />
+            <SectionCards title="Watch it again" videos={watchItAgainVideos} size="small" />
             <SectionCards title="Travel" videos={travelVideos} size="small" />
             <SectionCards title="Productivity" videos={productivityVideos} size="medium" />
             <SectionCards title="Popular" videos={popularVideos} size="small" />
