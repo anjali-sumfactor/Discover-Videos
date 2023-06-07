@@ -15,7 +15,7 @@ export function Navbar() {
             try {
                 const { email, issuer } = await magic.user.getMetadata();
                 const didToken = await magic.user.getIdToken();
-                console.log({didToken})
+                console.log({ didToken })
                 if (email) {
                     setUsername(email);
                 }
@@ -46,9 +46,18 @@ export function Navbar() {
     const handleSignOut = async (e) => {
         e.preventDefault();
         try {
-            await magic.user.logout();
-            console.log(await magic.user.isLoggedIn());
-            router.push('/login');
+            // await magic.user.logout();
+            // console.log(await magic.user.isLoggedIn());
+            // router.push('/login');
+            const response = await fetch("/api/logout", {
+                method: "POST",
+                headers: {
+                  Authorization: `Bearer ${didToken}`,
+                  "Content-Type": "application/json",
+                },
+              });
+
+              const res = await response.json();
         } catch (error) {
             console.log("Error logging out", error);
             router.push('/login');
