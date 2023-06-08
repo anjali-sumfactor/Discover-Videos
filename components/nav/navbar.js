@@ -9,6 +9,7 @@ import styles from './navbar.module.css';
 export function Navbar() {
     const [showDropdown, setShowDropdown] = useState(false);
     const [username, setUsername] = useState("");
+    const [didToken, setDidToken] = useState("");
 
     useEffect(() => {
         async function logout() {
@@ -18,6 +19,7 @@ export function Navbar() {
                 console.log({ didToken })
                 if (email) {
                     setUsername(email);
+                    setDidToken(didToken);
                 }
             } catch (error) {
                 console.log("Error retrieving email", error);
@@ -46,18 +48,15 @@ export function Navbar() {
     const handleSignOut = async (e) => {
         e.preventDefault();
         try {
-            // await magic.user.logout();
-            // console.log(await magic.user.isLoggedIn());
-            // router.push('/login');
             const response = await fetch("/api/logout", {
                 method: "POST",
                 headers: {
-                  Authorization: `Bearer ${didToken}`,
-                  "Content-Type": "application/json",
+                    Authorization: `Bearer ${didToken}`,
+                    "Content-Type": "application/json",
                 },
-              });
+            });
 
-              const res = await response.json();
+            const res = await response.json();
         } catch (error) {
             console.log("Error logging out", error);
             router.push('/login');
