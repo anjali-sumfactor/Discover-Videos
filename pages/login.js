@@ -39,16 +39,13 @@ export default function Login() {
         e.preventDefault();
 
         if (email) {
-            // router.push('/');
             try {
                 setIsLoading(true);
 
                 const didToken = await magic.auth.loginWithMagicLink({
                     email,
                 });
-                console.log({ didToken });
                 if (didToken) {
-                    // setIsLoading(false);
 
                     const response = await fetch('./api/login', {
                         method: 'POST',
@@ -60,7 +57,6 @@ export default function Login() {
 
                     const loggedInResponse = await response.json();
                     if (loggedInResponse.done) {
-                        console.log({ loggedInResponse });
                         router.push('/');
                     } else {
                         setIsLoading(false);
@@ -73,7 +69,6 @@ export default function Login() {
                 setIsLoading(false);
             }
         } else {
-            //show user msg
             setIsLoading(false);
             setUserMsg("Enter a valid email address");
         }

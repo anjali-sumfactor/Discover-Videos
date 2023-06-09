@@ -12,7 +12,6 @@ import DisLike from '@/components/icons/dislike-icon';
 import styles from '../../styles/Video.module.css';
 
 export async function getStaticProps(context) {
-    // console.log({ context });
 
     const videoId = context.params.video;
     const videoArray = await getYoutubeVideoById(videoId);
@@ -21,7 +20,7 @@ export async function getStaticProps(context) {
         props: {
             video: videoArray.length > 0 ? videoArray[0] : {},
         },
-        revalidate: 10, // In seconds
+        revalidate: 10,
     };
 }
 
@@ -43,14 +42,12 @@ export default function Video({ video }) {
 
     const { title, publishTime, description, channelTitle, statistics: { viewCount } = { viewCount: 0 } } = video;
 
-    //likeDiskeUpdate:-
     useEffect(() => {
         const statsLikeDislikeUpdate = async () => {
             const response = await fetch(`/api/stats?videoId=${videoId}`, {
                 method: 'GET',
             });
             const data = await response.json();
-            console.log({ data });
             if (data.length > 0) {
                 const favourited = data[0].favourited;
                 if (favourited === 1) {
@@ -78,25 +75,21 @@ export default function Video({ video }) {
     }
 
     const handleToggleDislike = async () => {
-        console.log("handleToggleDislike");
         const val = !toggleDislike
         setToggleDisLike(val);
         setToggleLike(toggleDislike);
 
         const favourited = val ? 0 : 1;
         const response = await runRatingService(favourited)
-        console.log('data', await response.json());
     }
 
     const handleToggleLike = async () => {
-        console.log("handleToggleLike");
         const val = !toggleLike;
         setToggleLike(val);
         setToggleDisLike(toggleLike);
 
         const favourited = val ? 1 : 0;
         const response = await runRatingService(favourited)
-        console.log('data', await response.json());
     }
 
     return <div className={styles.container}>
