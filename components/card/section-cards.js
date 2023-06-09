@@ -14,7 +14,7 @@ export function SectionCards(props) {
             <div className={clsx(styles.cardWrapper, shouldWrap && styles.wrap)}>
                 {videos.map((video, idx) => {
                     return (
-                        <Link href={`/video/${video.id}`}>
+                        <Link key={idx} href={`/video/${video.id}`}>
                             <Card id={idx} imgUrl={video.imgUrl} size={size} shouldScale=
                                 {shouldScale} />
                         </Link>
