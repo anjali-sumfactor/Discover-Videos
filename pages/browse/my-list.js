@@ -1,10 +1,11 @@
 import Head from 'next/head';
+
 import { Navbar } from "@/components/nav/navbar";
 import { SectionCards } from '@/components/card/section-cards';
-
-import styles from '../../styles/MyList.module.css';
 import { getMyList } from '@/lib/videos';
 import useRedirectUser from '@/utils/redirectUser';
+
+import styles from '../../styles/MyList.module.css';
 
 export async function getServerSideProps(context) {
     const { userId, token } = await useRedirectUser(context);

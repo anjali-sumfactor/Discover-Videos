@@ -7,27 +7,12 @@ import { getPopularVideos, getVideos, getWatchItAgainVideos } from '@/lib/videos
 import useRedirectUser from '@/utils/redirectUser';
 
 import styles from '@/styles/Home.module.css';
-import { verifyToken } from '@/lib/utils';
-import redirectUser from '@/utils/redirectUser';
 
 export async function getServerSideProps(context) {
 
   const { userId, token } = await useRedirectUser(context);
-  // const token = context.req ? context.req.cookies.token : null;
-  // const userId = await verifyToken(token);
-
-  if (!userId) {
-    return {
-      redirect: {
-        props: {},
-        destination: '/login',
-        permanent: false,
-      }
-    }
-  }
 
   const watchItAgainVideos = await getWatchItAgainVideos(userId, token);
-  // console.log({ watchItAgainVideos });
 
   const disneyVideos = await getVideos("disney trailer");
 

@@ -12,7 +12,6 @@ import DisLike from '@/components/icons/dislike-icon';
 import styles from '../../styles/Video.module.css';
 
 export async function getStaticProps(context) {
-    // console.log({ context });
 
     const videoId = context.params.video;
     const videoArray = await getYoutubeVideoById(videoId);
@@ -21,7 +20,7 @@ export async function getStaticProps(context) {
         props: {
             video: videoArray.length > 0 ? videoArray[0] : {},
         },
-        revalidate: 10, // In seconds
+        revalidate: 10,
     };
 }
 
@@ -43,7 +42,6 @@ export default function Video({ video }) {
 
     const { title, publishTime, description, channelTitle, statistics: { viewCount } = { viewCount: 0 } } = video;
 
-    //likeDiskeUpdate:-
     useEffect(() => {
         const statsLikeDislikeUpdate = async () => {
             const response = await fetch(`/api/stats?videoId=${videoId}`, {

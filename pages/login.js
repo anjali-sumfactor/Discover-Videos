@@ -39,7 +39,6 @@ export default function Login() {
         e.preventDefault();
 
         if (email) {
-            // router.push('/');
             try {
                 setIsLoading(true);
 
@@ -48,7 +47,6 @@ export default function Login() {
                 });
                 console.log({ didToken });
                 if (didToken) {
-                    // setIsLoading(false);
 
                     const response = await fetch('./api/login', {
                         method: 'POST',
@@ -73,7 +71,6 @@ export default function Login() {
                 setIsLoading(false);
             }
         } else {
-            //show user msg
             setIsLoading(false);
             setUserMsg("Enter a valid email address");
         }
