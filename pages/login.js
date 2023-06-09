@@ -45,7 +45,6 @@ export default function Login() {
                 const didToken = await magic.auth.loginWithMagicLink({
                     email,
                 });
-                console.log({ didToken });
                 if (didToken) {
 
                     const response = await fetch('./api/login', {
@@ -58,7 +57,6 @@ export default function Login() {
 
                     const loggedInResponse = await response.json();
                     if (loggedInResponse.done) {
-                        console.log({ loggedInResponse });
                         router.push('/');
                     } else {
                         setIsLoading(false);
